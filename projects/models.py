@@ -9,7 +9,7 @@ class Project(models.Model):
 
 
 class ToDo(models.Model):
-    project = models.OneToOneField(Project, name='project', on_delete=models.CASCADE, primary_key=True)
+    project = models.ForeignKey(Project, name='project', on_delete=models.CASCADE)
     text_todo = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
