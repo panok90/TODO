@@ -15,17 +15,27 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from users.views import UserModelViewSet
-from projects.views import ProjectModelViewSet, TodoModelViewSet
+# from rest_framework.routers import SimpleRouter
+from users.views import UserRetrieveAPIView, UserListAPIView
+from projects.views import ProjectAPIView, TodoAPIView, ProjectFilterAPIView
 
-router = DefaultRouter()
-router.register('users', UserModelViewSet)
-router.register('projects', ProjectModelViewSet)
-router.register('todo', TodoModelViewSet)
+# router = SimpleRouter()
+# router.register('todo', TodoAPIView, basename='todo')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-usr/', include('rest_framework.urls')),
-    path('api/', include(router.urls)),
+    #    path('api/', include(router.urls)),
+    path('users/', UserListAPIView.as_view()),
+    path('user/<int:pk>/', UserRetrieveAPIView.as_view()),
+    path('project_create/', ProjectAPIView.as_view({'get': 'create'})),
+    path('project_filter/<str:name>/', ProjectFilterAPIView.as_view()),
+    path('project_update/<int:pk>/', ProjectAPIView.as_view({'get': 'update'})),
+    path('project_delete/<int:pk>/', ProjectAPIView.as_view({'get': 'destroy'})),
+    path('projects/', ProjectAPIView.as_view({'get': 'list'})),
+    path('todo/', TodoAPIView.as_view({'get': 'list'})),
+    path('todo_update/<int:pk>/', TodoAPIView.as_view({'get': 'update'})),
+    path('todo_delete/<int:pk>/', TodoAPIView.as_view({'get': 'destroy'})),
+    path('todo_crete/', TodoAPIView.as_view({'get': 'create'})),
 ]
