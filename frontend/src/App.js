@@ -3,14 +3,19 @@ import axios from 'axios';
 //import logo from './logo.svg';
 import './App.css';
 import UserList from './components/User.js';
+import ProjectList from './components/Project.js';
+import TodoList from './components/Todo.js';
 import MenuList from './components/Menu.js';
 import footer from './components/Footer.js';
+import {HashRouter, Route, Link, Switch, Redirect} from 'react-router-dom'
 
 class App extends React.Component {
    constructor(props) {
        super(props)
        this.state = {
-           'users': []
+           'users': [],
+           'projects': [],
+           'utodos': []
        }
           }
    componentDidMount() {
@@ -24,17 +29,41 @@ class App extends React.Component {
            }
            )
        }).catch(error => console.log(error))
+
+        axios.get('http://127.0.0.1:8000/api/projects/')
+       .then(respose =>{
+        const projects = respose.data
+
+       this.setState(
+           {
+               'projects': projects
+           }
+           )
+       }).catch(error => console.log(error))
+
+        axios.get('http://127.0.0.1:8000/api/todos/')
+       .then(respose =>{
+        const todos = respose.data
+
+       this.setState(
+           {
+               'todos': todos
+           }
+           )
+       }).catch(error => console.log(error))
    }
    render () {
        return (
        <div className="wrapper">
-            <nav className="navStyle">
-                <MenuList/>
-            </nav>
+       <HashRouter>
+            <MenuList />
             <div className="mainContent">
-                <UserList users={this.state.users} />
+                <Route exact path='/' component={() => <UserList users={this.state.users} />} />
+                <Route exact path='/projects' component={() => <ProjectList projects={this.state.projects} />} />
+                <Route exact path='/todos' component={() => <TodoList todos={this.state.todos} />} />
             </div>
             <footer className="footerStyle" />
+       </HashRouter>
        </div>
        )
    }

@@ -76,7 +76,7 @@ html, body {
 	margin-right: 10px;
 }
 
-.aMenuStyle {
+.LinkMenuStyle {
     text-decoration: none;
 	display: flex;
 	justify-content: center;
@@ -88,6 +88,6 @@ html, body {
 
 }
 
-nav a:hover {
+li Link:hover {
 	background-color: #1A3039;
 }
