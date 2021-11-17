@@ -19,6 +19,7 @@ from rest_framework.routers import DefaultRouter
 from users.views import UserAPIView
 from projects.views import ProjectAPIView, TodoAPIView
 from rest_framework.authtoken import views
+admin.autodiscover()
 
 router = DefaultRouter()
 router.register('users', UserAPIView, basename='users')
